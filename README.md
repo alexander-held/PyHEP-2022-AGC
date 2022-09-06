@@ -1,5 +1,7 @@
 # IRIS-HEP AGC demonstration in Binder
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alexander-held/agc-binder/main?labpath=coffea.ipynb)
+
 This is heavily based on material from the main [Analysis Grand Challenge repository](https://github.com/iris-hep/analysis-grand-challenge/).
 
 ## Acknowledgements
