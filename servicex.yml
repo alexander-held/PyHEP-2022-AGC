@@ -1,0 +1,4 @@
+api_endpoints:
+    - name: uproot
+      endpoint: https://opendataaf-servicex.servicex.coffea-opendata.casa/
+      type: uproot
