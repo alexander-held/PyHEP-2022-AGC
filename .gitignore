@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# files specific to the demonstration
+figures/
+histograms/
+histograms.root
+workspace.json
