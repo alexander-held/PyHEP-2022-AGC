@@ -142,11 +142,11 @@ async def produce_all_histograms(fileset, query, procesor_class, use_dask=False,
     ds.return_qastle = True
     data_query = query(ds)
 
-    # executor: local or Dask (Dask is not supported yet)
+    # executor: local or Dask
     if not use_dask:
         executor = servicex.LocalExecutor()
     else:
-        executor = servicex.DaskExecutor(client_addr="tls://localhost:8786")
+        executor = servicex.DaskExecutor()
 
     datasources = [
         make_datasource(fileset, ds_name, data_query, ignore_cache=ignore_cache)
