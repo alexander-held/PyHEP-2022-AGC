@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python=>3.8
+  - pip
   - pip:
     - aiohttp==3.8.1
     - aiosignal==1.2.0
