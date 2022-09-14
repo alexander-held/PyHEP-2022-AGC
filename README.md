@@ -1,6 +1,6 @@
 # IRIS-HEP AGC demonstration in Binder
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alexander-held/agc-binder/main?labpath=coffea.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alexander-held/agc-binder/main?labpath=talk.ipynb)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7061743.svg)](https://doi.org/10.5281/zenodo.7061743)
 
 Contribution for [PyHEP 2022](https://indico.cern.ch/e/PyHEP2022): [_End-to-end physics analysis with Open Data: the Analysis Grand Challenge (Alexander Held, Oksana Shadura)_](https://indico.cern.ch/event/1150631/contributions/5000592/).

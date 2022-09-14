@@ -12,8 +12,8 @@ from coffea.processor import servicex
 from servicex import ServiceXDataset
 
 
-def get_client(af="coffea_casa"):
-    if af == "coffea_casa":
+def get_client(af="coffea-casa"):
+    if af == "coffea-casa":
         from dask.distributed import Client
 
         client = Client("tls://localhost:8786")
@@ -48,7 +48,8 @@ def set_style():
     plt.rcParams["xtick.color"] = "222222"
     plt.rcParams["ytick.color"] = "222222"
     plt.rcParams["font.size"] = 12
-    plt.rcParams['text.color'] = "222222"
+    plt.rcParams["text.color"] = "222222"
+    plt.rcParams["axes.grid"] = False  # for cabinetry modifier_grid
 
 
 def construct_fileset(n_files_max_per_sample, use_xcache=False):
@@ -94,7 +95,7 @@ def save_histograms(all_histograms, fileset, filename):
 
     all_histograms += 1e-6  # add minimal event count to all bins to avoid crashes when processing a small number of samples
 
-    pseudo_data = (all_histograms[:, :, "ttbar", "ME_var"] + all_histograms[:, :, "ttbar", "PS_var"]) / 2  + all_histograms[:, :, "wjets", "nominal"]
+    pseudo_data = (2*all_histograms[:, :, "ttbar", "nominal"] + all_histograms[:, :, "ttbar", "ME_var"] + all_histograms[:, :, "ttbar", "PS_var"]) / 4  + all_histograms[:, :, "wjets", "nominal"] + all_histograms[:, :, "single_top_tW", "nominal"]
 
     with uproot.recreate(filename) as f:
         for region in ["4j1b", "4j2b"]:
@@ -133,12 +134,12 @@ def make_datasource(fileset:dict, name: str, query: ObjectStream, ignore_cache: 
     )
 
 
-async def produce_all_histograms(fileset, query, procesor_class, use_dask=False, ignore_cache=False, unique_name=""):
+async def produce_all_histograms(fileset, query, procesor_class, use_dask=False, ignore_cache=False, unique_name="", schema=None, af="coffea-casa", backend_name="uproot"):
     """Runs the histogram production, processing input files with ServiceX and
     producing histograms with coffea.
     """
     # create the query
-    ds = ServiceXSourceUpROOT("cernopendata://dummy", "events", backend_name="uproot")
+    ds = ServiceXSourceUpROOT("cernopendata://dummy", "events", backend_name=backend_name)
     ds.return_qastle = True
     data_query = query(ds)
 
@@ -146,7 +147,10 @@ async def produce_all_histograms(fileset, query, procesor_class, use_dask=False,
     if not use_dask:
         executor = servicex.LocalExecutor()
     else:
-        executor = servicex.DaskExecutor()
+        if af == "coffea-casa":
+            executor = servicex.DaskExecutor(client_addr="tls://localhost:8786")
+        else:
+            executor = servicex.DaskExecutor()
 
     datasources = [
         make_datasource(fileset, ds_name, data_query, ignore_cache=ignore_cache)
@@ -169,7 +173,7 @@ async def produce_all_histograms(fileset, query, procesor_class, use_dask=False,
     all_histogram_dicts = await asyncio.gather(
         *[
             run_updates_stream(
-                executor.execute(analysis_processor, source, title=f"{unique_name}_{source.metadata['process']}__{source.metadata['variation']}"),
+                executor.execute(analysis_processor, source, title=f"{unique_name}_{source.metadata['process']}__{source.metadata['variation']}", schema=schema),
                 f"{source.metadata['process']}__{source.metadata['variation']}",
             )
             for source in datasources
