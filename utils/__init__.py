@@ -95,7 +95,7 @@ def save_histograms(all_histograms, fileset, filename):
 
     all_histograms += 1e-6  # add minimal event count to all bins to avoid crashes when processing a small number of samples
 
-    pseudo_data = (all_histograms[:, :, "ttbar", "ME_var"] + all_histograms[:, :, "ttbar", "PS_var"]) / 2  + all_histograms[:, :, "wjets", "nominal"]
+    pseudo_data = (2*all_histograms[:, :, "ttbar", "nominal"] + all_histograms[:, :, "ttbar", "ME_var"] + all_histograms[:, :, "ttbar", "PS_var"]) / 4  + all_histograms[:, :, "wjets", "nominal"] + all_histograms[:, :, "single_top_tW", "nominal"]
 
     with uproot.recreate(filename) as f:
         for region in ["4j1b", "4j2b"]:
