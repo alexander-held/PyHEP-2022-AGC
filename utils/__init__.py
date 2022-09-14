@@ -134,12 +134,12 @@ def make_datasource(fileset:dict, name: str, query: ObjectStream, ignore_cache: 
     )
 
 
-async def produce_all_histograms(fileset, query, procesor_class, use_dask=False, ignore_cache=False, unique_name="", schema=None, af="coffea-casa"):
+async def produce_all_histograms(fileset, query, procesor_class, use_dask=False, ignore_cache=False, unique_name="", schema=None, af="coffea-casa", backend_name="uproot"):
     """Runs the histogram production, processing input files with ServiceX and
     producing histograms with coffea.
     """
     # create the query
-    ds = ServiceXSourceUpROOT("cernopendata://dummy", "events", backend_name="uproot")
+    ds = ServiceXSourceUpROOT("cernopendata://dummy", "events", backend_name=backend_name)
     ds.return_qastle = True
     data_query = query(ds)
 
