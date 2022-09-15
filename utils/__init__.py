@@ -126,9 +126,9 @@ def save_histograms(all_histograms, fileset, filename):
             f[f"{region}_wjets_scale_var_up"] = all_histograms[120j :: hist.rebin(2), region, "wjets", "scale_var_up"]
 
 
-def make_datasource(fileset:dict, name: str, query: ObjectStream, ignore_cache: bool):
+def make_datasource(fileset:dict, name: str, query: ObjectStream, ignore_cache: bool, backend_name: str = "uproot"):
     """Creates a ServiceX datasource for a particular Open Data file."""
-    datasets = [ServiceXDataset(fileset[name]["files"], backend_name="uproot", ignore_cache=ignore_cache)]
+    datasets = [ServiceXDataset(fileset[name]["files"], backend_name=backend_name, ignore_cache=ignore_cache)]
     return servicex.DataSource(
         query=query, metadata=fileset[name]["metadata"], datasets=datasets
     )
@@ -139,7 +139,7 @@ async def produce_all_histograms(fileset, query, procesor_class, use_dask=False,
     producing histograms with coffea.
     """
     # create the query
-    ds = ServiceXSourceUpROOT("cernopendata://dummy", "events", backend_name=backend_name)
+    ds = ServiceXSourceUpROOT("cernopendata://dummy", "events")
     ds.return_qastle = True
     data_query = query(ds)
 
@@ -153,7 +153,7 @@ async def produce_all_histograms(fileset, query, procesor_class, use_dask=False,
             executor = servicex.DaskExecutor()
 
     datasources = [
-        make_datasource(fileset, ds_name, data_query, ignore_cache=ignore_cache)
+        make_datasource(fileset, ds_name, data_query, ignore_cache=ignore_cache, backend_name=backend_name)
         for ds_name in fileset.keys()
     ]
 
