@@ -1,11 +1,5 @@
 api_endpoints:
-  - name: uproot_UNL
+  - name: uproot
     endpoint: https://opendataaf-servicex.servicex.coffea-opendata.casa/
     type: uproot
     # dashboard: https://opendataaf-servicex.servicex.coffea-opendata.casa/global-dashboard
-
-  - name: uproot
-    endpoint: https://uproot-atlas.servicex.af.uchicago.edu/
-    token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MzUyNTYyNjQsIm5iZiI6MTYzNTI1NjI2NCwianRpIjoiMTRhNGE0NzktNjNkYS00ZGYyLWJkMWMtZmRiNjI5MDA4YTAxIiwiaWRlbnRpdHkiOiJjNTFhY2Q0NC1hMzgyLTQ2MjgtYjFmYy03Y2QyMjEyMTk4ZDQiLCJ0eXBlIjoicmVmcmVzaCJ9.jlZ3Ehsa9EWCKW6jWcrfDaWCOGcb3gHXFaKI5-ljiYw
-    type: uproot
-    # dashboard: https://uproot-atlas.servicex.af.uchicago.edu/dashboard
